@@ -23,22 +23,18 @@ let modelController = (function () {
       this.email = email;
       this.phone = phone;
       this.status = status;
-      // this.userClass = userClass;
-      // this.dataAttr = dataAttr;
     }
     generateId() {
       const data = getStorage();
-      // console.log(data);
       return data.length + 1;
     }
     generateDate() {
       const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
       const d = new Date();
-      const year = d.getFullYear(); // 2019
-      const date = d.getDate(); // 23
+      const year = d.getFullYear();
+      const date = d.getDate();
       const monthIndex = d.getMonth();
       const monthName = months[monthIndex];
-      // console.log(monthName); // January
       const formatted = `${date}.${monthName}.${year}`
       return formatted;
     }
@@ -64,6 +60,16 @@ let modelController = (function () {
       name: 'archive',
       label: 'В архиве',
       badgeClass: 'badge-dark'
+    },
+    wait: {
+      name: 'wait',
+      label: 'Ожидается оплата',
+      badgeClass: 'badge-info'
+    },
+    canceled: {
+      name: 'canceled',
+      label: 'Отказ',
+      badgeClass: 'badge-dark'
     }
   }
 
@@ -84,7 +90,6 @@ let modelController = (function () {
     localStorage.setItem('formData', JSON.stringify(item));
   }
   const userDataArray = getStorage();
-  console.log(userDataArray)
 
   function getStorage() {
     let dataFromLocal = JSON.parse(localStorage.getItem('formData')) || [];
@@ -99,14 +104,39 @@ let modelController = (function () {
     if (filter.product !== 'all') {
       filteredData = filteredData.filter(item => item.product === filter.product);
     }
-    /////////
-    // Object.keys(filter).forEach(item => {
-    //   if (filter[item] !== 'all') {
-    //     filteredData = filtereData.filter(request => request[item] === filter[item])
-    //   }
-    // })
-    ////////////
     return filteredData;
+  }
+
+  function editRequest(obj, id) {
+    userDataArray.find(item => {
+      if (item.id == id) {
+
+        item.name = document.querySelector(obj.name).value;
+        item.email = document.querySelector(obj.email).value;
+        item.phone = document.querySelector(obj.phone).value;
+        item.status = document.querySelector(obj.status).value;
+        item.product = document.querySelector(obj.product).value;
+        return item;
+      }
+
+    })
+    setStorage(userDataArray);
+  }
+
+
+  function badgeCounter() {
+    const badgesCount = {}
+    Object.keys(statuses).forEach(status => {
+      const count = calculateStatus(status, userDataArray)
+      badgesCount[status] = count
+    })
+    return badgesCount;
+  }
+
+  function calculateStatus(status, data) {
+    return status === "all" ?
+      data.length :
+      data.reduce((acc, request) => request.status === status ? acc + 1 : acc, 0)
   }
 
   return {
@@ -115,9 +145,11 @@ let modelController = (function () {
     getStorage: getStorage,
     newRequest: newRequest,
     filterRequests: filterRequests,
+    badgeCounter: badgeCounter,
     filter: filter,
     statuses: statuses,
     products: products,
+    editRequest: editRequest,
   }
 
 

@@ -38,14 +38,15 @@
                 Заявки
             </div>
             <ul>
-                <li><a href="#" class="active">Все вместе</a></li>
+                <li><a href="#" class="active">Все вместе<div data-status="all" class="badge">0</div></a></li>
                 <li>
                     <a href="#">Новые
-                        <div class="badge">12</div></a>
+                        <div data-status="new" class="badge">0</div></a>
                 </li>
-                <li><a href="#">В работе</a></li>
-                <li><a href="#">Завершенные</a></li>
-                <li><a href="#">Архив</a></li>
+                <li><a href="#">В работе<div data-status="work" class="badge">0</div></a></li>
+                <li><a href="#">Завершенные<div data-status="completed" class="badge">0</div></a></li>
+                <li><a href="#">Архив<div data-status="archive" class="badge">0</div></a>
+                <li><a href="#">Ожидается оплата<div data-status="wait" class="badge">0</div></a></li>
             </ul>
         </div>
         <!-- // Navigation 1 -->
@@ -79,7 +80,7 @@
                     <div class="admin-heading-1">Работа с заявкой</div>
                 </div>
                 <div class="col text-right">
-                    <a href="index.html" class="btn btn-link">Вернуться назад</a>
+                    <a href="02-crm-all-bids.html" class="btn btn-link">Вернуться назад</a>
                 </div>
             </div>
             <!-- // row -->
@@ -158,11 +159,11 @@
                                     <div class="col">
                                         <select id="edit-status" class="custom-select" id="inputGroupSelect01">
                                             <option selected="">Выберите...</option>
-                                            <option value="1">Новая</option>
-                                            <option value="2">В работе</option>
-                                            <option value="3">Ожидается оплата</option>
-                                            <option value="4">Завершена</option>
-                                            <option value="5">Отказ</option>
+                                            <option value="new">Новая</option>
+                                            <option value="work">В работе</option>
+                                            <option value="wait">Ожидается оплата</option>
+                                            <option value="completed">Завершена</option>
+                                            <option value="canceled">Отказ</option>
                                         </select>
                                     </div>
                                 </div>
@@ -194,7 +195,6 @@
     <script src="./js/edit.controller.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/main.js"></script>
 </body>
 
 </html>

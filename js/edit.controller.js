@@ -1,28 +1,33 @@
 let editController = (function (dataCtrl, uiCtrl) {
   const DOM = uiCtrl.getDOMStrings();
+  let dataArrFromLocal = dataCtrl.userDataArray;
+  const id = window.location.search.split('=')[1];
+  const request = dataArrFromLocal.find(item => item.id == id);
 
   const setupEventListeners = function () {
-    // const DOM = uiCtrl.getDomStrings();
     document.querySelector(DOM.editBtn).addEventListener('click', editRequest);
-    document.querySelector(DOM.deleteBtn).addEventListener('click', deleteRequest);
+    document.querySelector(DOM.deleteBtn).addEventListener('click', setArchiveStatus);
   }
+
 
   function editRequest(e) {
     e.preventDefault();
-    console.log('edit');
-    let input = uiCtrl.getEditInputs();
-    console.log(input);
+    dataCtrl.editRequest(DOM, id)
   }
 
-  function deleteRequest(e) {
+  function setArchiveStatus(e) {
     e.preventDefault();
-    console.log('delete');
+    request.status = 'archive';
+    dataCtrl.setStorage(dataArrFromLocal);
   }
+
+  const countArr = dataCtrl.badgeCounter()
 
   return {
     init: function () {
-      console.log('edit started');
       setupEventListeners();
+      uiCtrl.getEditInputs(request);
+      uiCtrl.changeBadgeClass(countArr, dataArrFromLocal);
     }
   }
 

@@ -15,30 +15,26 @@ let tableController = (function (dataCtrl, uiCtrl) {
   function filterStatus(e) {
     e.preventDefault();
     let target = e.target.getAttribute('data-status');
-    console.log(target);
     filter.status = target;
     uiCtrl.selectedItem(target);
     const filterArray = dataCtrl.filterRequests();
-    // console.log(filterArray)
     uiCtrl.initTable(filterArray, statuses, products);
   }
 
   function filterProduct() {
     let filteredOptions = document.querySelector(DOM.customSelect).value;
-    console.log(filteredOptions);
     filter.product = filteredOptions;
     const filterArray = dataCtrl.filterRequests();
-    console.log(filterArray)
     uiCtrl.initTable(filterArray, statuses, products);
   }
+  const countArr = dataCtrl.badgeCounter()
 
 
   return {
     init: function () {
-      console.log('table page started');
       setupEventListeners();
-      // uiCtrl.generateTr(dataArrFromLocal, statusesObj, products);
       uiCtrl.initTable(dataArrFromLocal, statuses, products);
+      uiCtrl.changeBadgeClass(countArr, dataArrFromLocal);
     }
   }
 

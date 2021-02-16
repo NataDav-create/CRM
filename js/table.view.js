@@ -16,10 +16,6 @@ let tableViewController = (function () {
     let searchValues = {
       filters: document.querySelectorAll(DOMstrings.filterGroup),
       all: document.querySelector(DOMstrings.btnAll),
-      // new: document.querySelector(DOMstrings.btnNew),
-      // work: document.querySelector(DOMstrings.btnWork),
-      // completed: document.querySelector(DOMstrings.btnCompleted),
-      // archive: document.querySelector(DOMstrings.btnArchive),
       row: document.querySelectorAll(DOMstrings.rowData),
       select: document.querySelector(DOMstrings.customSelect),
       products: document.querySelectorAll(DOMstrings.searchedProduct),
@@ -45,18 +41,11 @@ let tableViewController = (function () {
             </div>
           </td>
           <td>
-            <a href="03-crm-edit-bid.html">Редактировать</a>
+            <a href="03-crm-edit-bid.html?id=${item.id}">Редактировать</a>
           </td>
           `
-      // console.log(tr);
       return tr;
     });
-    // const tableContainer = document.querySelector('tbody');
-    // tr.forEach(item => {
-    //   tableContainer.appendChild(item);
-    //   // console.log(tableContainer);
-    // })
-    // console.log(el)
     return el;
   }
 
@@ -67,7 +56,6 @@ let tableViewController = (function () {
     const tr = generateTr(dataArr, objStatuses, products);
     tr.forEach(item => {
       tableContainer.appendChild(item);
-      // console.log(tableContainer);
     })
   }
 
@@ -82,6 +70,16 @@ let tableViewController = (function () {
     }
   }
 
+  function changeBadgeClass(obj, arr) {
+    const badges = Array.from(document.querySelectorAll(".badge[data-status]"))
+    badges.forEach(badge => {
+      badge.textContent = obj[badge.dataset.status]
+    })
+    let allBadges = document.querySelector(`.badge[data-status=all]`);
+    allBadges.textContent = arr.length;
+  }
+
+
 
   return {
     generateTr: generateTr,
@@ -89,5 +87,6 @@ let tableViewController = (function () {
     getDomStrings: getDomStrings,
     getSearchValues: getSearchValues,
     selectedItem: selectedItem,
+    changeBadgeClass: changeBadgeClass
   }
 })();

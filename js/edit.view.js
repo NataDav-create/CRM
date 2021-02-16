@@ -2,28 +2,35 @@ let editView = (function () {
 
   const DOMStrings = {
     form: '#crm-edit-form',
-    editID: '#edit-id',
-    editDate: '#edit-date',
-    editProduct: '#edit-product',
-    editName: '#edit-name',
-    editEmail: '#edit-email',
-    editPhone: '#edit-phone',
-    editStatus: '#edit-status',
+    id: '#edit-id',
+    date: '#edit-date',
+    product: '#inputGroupSelect01',
+    name: '#edit-name',
+    email: '#edit-email',
+    phone: '#edit-phone',
+    status: '#edit-status',
     editBtn: '#save-changes',
     deleteBtn: '#delete-request'
   }
 
-  function getEditInputs() {
-    let formData = {
-      id: document.querySelector(DOMStrings.editID).textContent,
-      date: document.querySelector(DOMStrings.editDate).textContent,
-      product: document.querySelector(DOMStrings.editProduct).value,
-      name: document.querySelector(DOMStrings.editName).value,
-      email: document.querySelector(DOMStrings.editEmail).value,
-      phone: document.querySelector(DOMStrings.editPhone).value,
-      status: document.querySelector(DOMStrings.editStatus).value
-    }
-    return formData;
+  function getEditInputs(arr) {
+    document.querySelector(DOMStrings.id).textContent = `Заявка №${arr.id}`;
+    document.querySelector(DOMStrings.date).textContent = arr.date;
+    document.querySelector(DOMStrings.product).value = arr.product;
+    document.querySelector(DOMStrings.name).value = arr.name;
+    document.querySelector(DOMStrings.email).value = arr.email;
+    document.querySelector(DOMStrings.phone).value = arr.phone;
+    document.querySelector(DOMStrings.status).value = arr.status;
+  }
+
+
+  function changeBadgeClass(obj, arr) {
+    const badges = Array.from(document.querySelectorAll(".badge[data-status]"))
+    badges.forEach(badge => {
+      badge.textContent = obj[badge.dataset.status]
+    })
+    let allBadges = document.querySelector(`.badge[data-status=all]`);
+    allBadges.textContent = arr.length;
   }
 
   function getDOMStrings() {
@@ -32,7 +39,9 @@ let editView = (function () {
 
   return {
     getEditInputs: getEditInputs,
-    getDOMStrings: getDOMStrings
+    getDOMStrings: getDOMStrings,
+    changeBadgeClass: changeBadgeClass,
+
   }
 
 })();
